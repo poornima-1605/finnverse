@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="about-hero py-5 mb-5" style="background: linear-gradient(135deg, #008080 0%, #004d4d 100%); color: white;">
+    <div class="container text-center py-4">
+        <h1 class="display-4 fw-bold">About FinnVerse</h1>
+        <p class="lead opacity-75">Empowering your financial journey with smart technology.</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row align-items-center g-5">
+        <div class="col-md-6">
+            <div class="pe-lg-5">
+                <h2 class="fw-bold mb-4" style="color: #008080;">Your Financial Universe, Simplified.</h2>
+                <p class="text-muted mb-4" style="line-height: 1.8;">
+                    FinnVerse is a state-of-the-art web application designed to help you take absolute control of your finances. 
+                    By bridging the gap between daily transactions and long-term goals, we provide a 360-degree view of your 
+                    financial health in real-time.
+                </p>
+                
+                <div class="d-flex align-items-start mb-3">
+                    <div class="icon-box me-3 mt-1">
+                        <i class="material-icons text-teal">insights</i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Real-Time Analytics</h6>
+                        <p class="small text-muted">Instant insights into your spending habits and income streams.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start mb-3">
+                    <div class="icon-box me-3 mt-1">
+                        <i class="material-icons text-teal">notifications_active</i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Smart Budgeting</h6>
+                        <p class="small text-muted">Automated alerts that keep you from overspending in your key categories.</p>
+                    </div>
+                </div>
+
+                <p class="text-muted" style="line-height: 1.8;">
+                    Our mission is to democratize financial literacy. Whether you are a <strong>student</strong> at Mumbai University 
+                    managing a pocket-money budget or a <strong>professional</strong> planning for the future, FinnVerse 
+                    scales with you.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6 position-relative">
+            <div class="about-image-wrapper p-3 bg-white shadow-lg rounded-4">
+                <img src="{{ url_for('static', filename='images/about1.jpg') }}" 
+                     class="img-fluid rounded-3" 
+                     alt="Financial Management Illustration">
+            </div>
+            <div class="position-absolute top-0 end-0 translate-middle p-5 bg-teal opacity-10 rounded-circle d-none d-lg-block" style="z-index: -1; width: 200px; height: 200px;"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-teal { color: #008080; }
+    .bg-teal { background-color: #008080; }
+    
+    .icon-box {
+        background: rgba(0, 128, 128, 0.1);
+        padding: 8px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .about-image-wrapper {
+        transition: transform 0.3s ease;
+    }
+
+    .about-image-wrapper:hover {
+        transform: scale(1.02);
+    }
+
+    /* Soft landing for the text */
+    p {
+        font-size: 1.05rem;
+    }
+</style>
+{% endblock %}

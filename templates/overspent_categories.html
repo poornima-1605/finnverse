@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-4 px-lg-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">🎯 Budget Overview</h2>
+            <p class="text-muted small">Track your spending against set limits</p>
+        </div>
+    </div>
+
+    {% if budget_status %}
+    <div class="row g-4">
+        {% for item in budget_status %}
+        {% set percent = (item.spent / item.budget * 100) if item.budget > 0 else 0 %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="fw-bold text-dark mb-0">{{ item.category }}</h5>
+                        <span class="badge {{ 'bg-success-subtle text-success' if item.remaining >= 0 else 'bg-danger-subtle text-danger' }} rounded-pill px-3">
+                            {{ 'Healthy' if item.remaining >= 0 else 'Overlimit' }}
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small mb-1">
+                            <span class="text-muted">Usage</span>
+                            <span class="fw-bold">{{ percent|round|int }}%</span>
+                        </div>
+                        <div class="progress rounded-pill" style="height: 12px;">
+                            <div class="progress-bar rounded-pill transition-all 
+                                {% if percent < 70 %}bg-success
+                                {% elif percent < 100 %}bg-warning
+                                {% else %}bg-danger{% endif %}" 
+                                role="progressbar" 
+                                data-width="{{ percent if percent <= 100 else 100 }}"
+                                style="width: var(--pg-width, 0%);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row text-center g-0 border-top pt-3">
+                        <div class="col-6 border-end">
+                            <p class="text-muted small mb-0">Budget</p>
+                            <p class="fw-bold mb-0 text-dark">₹{{ "{:,.0f}".format(item.budget) }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-muted small mb-0">Spent</p>
+                            <p class="fw-bold mb-0 text-dark">₹{{ "{:,.0f}".format(item.spent) }}</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 p-2 rounded-3 text-center {{ 'bg-success-subtle' if item.remaining >= 0 else 'bg-danger-subtle' }}">
+                        {% if item.remaining >= 0 %}
+                            <p class="text-success fw-bold small mb-0">
+                                <i class="material-icons fs-6 align-middle">check_circle</i> Remaining: ₹{{ "{:,.2f}".format(item.remaining) }}
+                            </p>
+                        {% else %}
+                            <p class="text-danger fw-bold small mb-0">
+                                <i class="material-icons fs-6 align-middle">warning</i> Overspent: ₹{{ "{:,.2f}".format(item.remaining | abs) }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+        <i class="material-icons fs-1 text-muted mb-3">savings</i>
+        <h5 class="text-dark fw-bold">No Budgets Set</h5>
+        <p class="text-muted px-4">Start by setting a monthly limit for your spending categories.</p>
+        <a href="{{ url_for('manage_budgets') }}" class="btn btn-teal px-4 rounded-pill mt-2">Set My First Budget</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .bg-success-subtle { background-color: #e8f5e9 !important; color: #2e7d32 !important; }
+    .bg-danger-subtle { background-color: #ffebee !important; color: #c62828 !important; }
+    .transition-all { transition: width 0.6s ease-in-out; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-1px); }
+    
+    /* Variable-based width to avoid static CSS errors */
+    .progress-bar { width: var(--pg-width, 0%); }
+</style>
+
+<script>
+    // This script applies the Jinja-calculated width without triggering CSS errors
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.progress-bar').forEach(function(bar) {
+            const width = bar.getAttribute('data-width');
+            bar.style.setProperty('--pg-width', width + '%');
+        });
+    });
+</script>
+
+{% endblock %}

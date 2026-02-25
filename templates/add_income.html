@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-teal-700 text-white p-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-white bg-opacity-25 rounded-circle p-2 me-3">
+                            <i class="material-icons fs-3">account_balance_wallet</i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">Add Income</h4>
+                            <p class="small opacity-75 mb-0">Record your earnings to update your budget</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-lg-5 bg-white">
+                    <form method="POST" class="needs-validation">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small uppercase">Income Source</label>
+                            <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+                                <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-success">business_center</i></span>
+                                <select name="source_id" class="form-select border-0 bg-light py-2" required>
+                                    <option value="" disabled selected>Select Income Source</option>
+                                    {% for src in sources %}
+                                        <option value="{{ src.id }}">{{ src.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-muted small uppercase">Amount (₹)</label>
+                                <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+                                    <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-success">payments</i></span>
+                                    <input type="number" name="amount" step="0.01" class="form-control border-0 bg-light py-2" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                             <div class="col-md-6 mb-4">
+    <label class="form-label fw-bold text-muted small uppercase">Date</label>
+    <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+        <span class="input-group-text bg-light border-0">
+            <i class="material-icons fs-5 text-danger">calendar_today</i>
+        </span>
+        <input type="date" name="date" 
+               value="{{ expense.date if expense else today_date }}" 
+               class="form-control border-0 bg-light py-2" required>
+    </div>
+</div>
+
+                        
+
+                        <div class="d-grid pt-2">
+                            <button type="submit" class="btn btn-teal-full btn-lg rounded-pill fw-bold shadow-sm transition-hover">
+                                <i class="material-icons align-middle me-1">check_circle</i> Save Income
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-link text-muted mt-2 text-decoration-none small">Cancel and go back</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-teal-700 { background-color: #006666; }
+    .text-success { color: #28a745 !important; }
+    .bg-light { background-color: #f8f9fa !important; }
+    .btn-teal-full { background-color: #008080; color: white; border: none; }
+    .btn-teal-full:hover { background-color: #006666; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 128, 128, 0.2); }
+    .transition-hover { transition: all 0.3s ease; }
+    .form-control:focus, .form-select:focus { background-color: white !important; box-shadow: none; border-color: #008080; }
+</style>
+{% endblock %}

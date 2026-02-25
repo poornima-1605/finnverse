@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4 px-lg-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-dark mb-1">🔍 Filter Categories</h2>
+            <p class="text-muted small mb-0">Browse and analyze expenses by their specific groups</p>
+        </div>
+        <div class="col-md-6 mt-3 mt-md-0">
+            <div class="input-group shadow-sm rounded-pill overflow-hidden bg-white border">
+                <span class="input-group-text bg-white border-0"><i class="material-icons text-muted">search</i></span>
+                <input type="text" id="categorySearch" class="form-control border-0 px-1" placeholder="Search categories...">
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4" id="categoryGrid">
+        {% for category in categories %}
+        <div class="col-6 col-md-4 col-lg-3 category-item">
+            <div class="card h-100 shadow-sm border-0 rounded-4 text-center p-3 transition-all hover-teal">
+                <div class="card-body">
+                    <div class="icon-circle bg-teal-50 text-teal-600 rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="material-icons fs-2">folder_open</i>
+                    </div>
+                    
+                    <h6 class="fw-bold text-dark mb-3 text-truncate">{{ category.name }}</h6>
+                    
+                    <a href="{{ url_for('filter_expenses_by_category', category_id=category.id) }}" 
+                       class="btn btn-teal btn-sm w-100 rounded-pill py-2 fw-bold">
+                       View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if not categories %}
+        <div class="col-12 text-center py-5">
+            <i class="material-icons fs-1 text-muted">category</i>
+            <p class="text-muted mt-2">No categories found. Add some to get started!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.getElementById('categorySearch').addEventListener('keyup', function() {
+        let filter = this.value.toLowerCase();
+        let items = document.querySelectorAll('.category-item');
+        
+        items.forEach(item => {
+            let text = item.querySelector('h6').textContent.toLowerCase();
+            item.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+</script>
+
+<style>
+    .bg-teal-50 { background-color: #f0fdfa; }
+    .text-teal-600 { color: #008080; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; }
+    
+    .hover-teal:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0, 128, 128, 0.1) !important;
+        border: 1px solid #008080 !important;
+    }
+    
+    .transition-all { transition: all 0.3s ease; }
+    
+    .form-control:focus {
+        box-shadow: none;
+        outline: none;
+    }
+</style>
+{% endblock %}

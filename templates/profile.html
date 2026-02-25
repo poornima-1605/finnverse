@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden mb-4">
+                <div class="card-header bg-teal-700 p-5 text-center text-white border-0 position-relative">
+                    <div class="position-relative d-inline-block">
+                        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto shadow-sm" style="width: 100px; height: 100px;">
+                            <i class="material-icons text-teal-600" style="font-size: 60px;">account_circle</i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold mt-3 mb-0">{{ user.firstname }} {{ user.lastname }}</h3>
+                    <p class="opacity-75 small">Member of FinnVerse</p>
+                </div>
+                
+                <div class="card-body p-4 p-lg-5 bg-white">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted small uppercase fw-bold mb-4 tracking-wider">Personal Details</h6>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="material-icons text-teal-600 me-3">badge</i>
+                                <div>
+                                    <p class="text-muted small mb-0">Full Name</p>
+                                    <p class="fw-semibold mb-0">{{ user.firstname }} {{ user.lastname }}</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="material-icons text-teal-600 me-3">alternate_email</i>
+                                <div>
+                                    <p class="text-muted small mb-0">Username</p>
+                                    <p class="fw-semibold mb-0">@{{ user.username }}</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <i class="material-icons text-teal-600 me-3">email</i>
+                                <div>
+                                    <p class="text-muted small mb-0">Email Address</p>
+                                    <p class="fw-semibold mb-0">{{ user.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 border-start ps-md-5">
+                            <h6 class="text-muted small uppercase fw-bold mb-4 tracking-wider">Account Actions</h6>
+                            <div class="d-grid gap-3">
+                                <a href="{{ url_for('profile.profile_edit') }}" class="btn btn-teal-outline d-flex align-items-center justify-content-center py-2 rounded-pill shadow-sm">
+                                    <i class="material-icons fs-5 me-2">edit</i> Edit Personal Info
+                                </a>
+                                <a href="{{ url_for('profile.change_password') }}" class="btn btn-warning-outline d-flex align-items-center justify-content-center py-2 rounded-pill shadow-sm">
+                                    <i class="material-icons fs-5 me-2">lock_reset</i> Security Settings
+                                </a>
+                                <hr>
+                                <p class="small text-muted mb-0">Need to secure your data? Change your password regularly to keep your financial records safe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="{{ url_for('dashboard') }}" class="text-teal-700 text-decoration-none small fw-bold d-flex align-items-center justify-content-center">
+                    <i class="material-icons fs-6 me-1">arrow_back</i> Return to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-teal-700 { background-color: #006666; }
+    .text-teal-600 { color: #008080; }
+    .text-teal-700 { color: #006666; }
+    
+    .btn-teal-outline { border: 2px solid #008080; color: #008080; font-weight: 600; transition: 0.3s; }
+    .btn-teal-outline:hover { background: #008080; color: white; }
+
+    .btn-warning-outline { border: 2px solid #ffc107; color: #856404; font-weight: 600; transition: 0.3s; }
+    .btn-warning-outline:hover { background: #ffc107; color: black; }
+
+    .uppercase { text-transform: uppercase; }
+    .tracking-wider { letter-spacing: 1px; }
+</style>
+{% endblock %}

@@ -1,0 +1,370 @@
+/* ================================
+   GLOBAL THEME (TEAL)
+   ================================ */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    background: #ffffff;
+    color: #333;
+}
+
+.teal-theme {
+    background-color: #008080 !important;
+    color: white !important;
+}
+
+.teal-text {
+    color: #008080 !important;
+}
+
+.btn-teal {
+    background-color: #008080;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-teal:hover {
+    background-color: #006666;
+    color: white;
+}
+
+/* ================================
+   LANDING PAGE ELEMENT STYLES
+   ================================ */
+
+/* Hero Section */
+.hero {
+    background-color: #008080;
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Large white button inside hero */
+.btn-teal-big {
+    padding: 12px 25px;
+    border-radius: 6px;
+    background: white;
+    color: #008080;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-teal-big:hover {
+    background: #f0f0f0;
+}
+
+/* Feature Boxes */
+.features {
+    padding: 50px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.feature-box {
+    background: #f5ffff;
+    border: 2px solid #008080;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.feature-box h3 {
+    color: #008080;
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    background: #008080;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-top: 40px;
+}
+
+
+/* ================================
+   YOUR ORIGINAL STYLES (NOT TOUCHED)
+   ================================ */
+
+.bg-dark-yellow {
+  background-color: #b8860b; /* DarkGoldenRod */
+  color: white;
+}
+
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99999;
+}
+
+.toast-message {
+    background: #008080;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    animation: fadeIn 0.4s ease;
+    transition: opacity 0.4s ease;
+    min-width: 200px;
+}
+
+/* Optional different colors */
+.toast-message.success { background: #28a745; }
+.toast-message.danger { background: #dc3545; }
+.toast-message.warning { background: #ffc107; color: black; }
+.toast-message.success { background: #008080; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* NAVBAR STYLING */
+.teal-navbar {
+    background-color: #008080 !important;
+    padding: 12px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.teal-navbar .nav-link {
+    font-size: 17px;
+    margin-left: 10px;
+    transition: 0.3s ease;
+}
+
+.teal-navbar .nav-link:hover {
+    color: #dffafa !important;
+}
+
+/* Fix mobile toggler icon color */
+.navbar-toggler {
+    border-color: white !important;
+}
+
+.navbar {
+    margin-bottom: 0 !important;
+}
+body {
+    padding-top: 0 !important;
+}
+
+
+
+.footer-thin {
+    background-color: #008080;   /* teal */
+    color: white;
+    padding: 6px 0;             /* very thin */
+    font-size: 13px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}
+
+/* Features cards */
+.feature-card {
+    border: none;
+    background-color: #f0f8f8;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 12px;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.card-title {
+    color: #008080;
+}
+
+.card-text {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.contact-card {
+    border-radius: 12px;
+    background-color: #f0f8f8;
+    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 30px;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.contact-card h5 {
+    color: #008080;
+    font-weight: 600;
+}
+
+.contact-card p {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* Navbar for non-logged in users */
+.navbar-teal {
+    background-color: #008080;
+}
+
+.navbar-teal .nav-link {
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar-teal .nav-link:hover {
+    color: #b2dfdb; /* lighter teal on hover */
+}
+
+.navbar-teal .btn-teal {
+    background-color: #008080;
+    color: white;
+    border: 1px solid white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-teal .btn-teal:hover {
+    background-color: white;
+    color: #008080;
+}
+
+.navbar-teal .btn-outline-light {
+    border-color: white;
+    color: white;
+}
+
+.navbar-teal .btn-outline-light:hover {
+    background-color: white;
+    color: #008080;
+}
+
+/* Chat container */
+.chat-container {
+max-width: 800px;
+margin: 50px auto;
+background-color: #ffffff;
+border-radius: 10px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+display: flex;
+flex-direction: column;
+height: 80vh;
+}
+
+/* Chat messages area */
+.chat-messages {
+flex: 1;
+padding: 20px;
+overflow-y: auto;
+}
+
+/* Chat input area */
+.chat-input {
+padding: 15px;
+border-top: 1px solid #ddd;
+display: flex;
+gap: 10px;
+}
+
+.chat-input input {
+flex: 1;
+}
+
+/* Individual messages */
+.message {
+margin-bottom: 15px;
+}
+
+.user-message {
+text-align: right;
+}
+
+.user-message .msg-content { 
+    display: inline-block; 
+    background: linear-gradient(to right, #008080, #00b3b3);
+    
+    /* Fallback text color */
+    color: #008080;  
+
+    /* For Chrome/Safari */
+    -webkit-background-clip: text;  
+    -webkit-text-fill-color: transparent;  
+
+    /* Standard property for future browsers */
+    background-clip: text;  
+    color: transparent; 
+
+    padding: 8px 14px; 
+    border-radius: 15px; 
+}
+
+.ai-message .msg-content {
+display: inline-block;
+background-color: #e0e0e0;
+color: black;
+padding: 8px 14px;
+border-radius: 15px;
+}
+  
+
+/* Modern Financial Card Styling */
+.card-custom {
+    border: none;
+    border-radius: 20px; /* Softer, modern corners */
+    padding: 1.5rem;
+    color: #ffffff;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Adds depth */
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-custom:hover {
+    transform: translateY(-8px); /* Interactive lift effect */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Color Palette based on Industry Standards */
+.income-card { background: linear-gradient(135deg, #28a745, #218838); }
+.expense-card { background: linear-gradient(135deg, #dc3545, #c82333); }
+.balance-card { background: linear-gradient(135deg, #008080, #006666); }
+
+/* Typography improvements */
+.card-custom h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.card-custom h2 {
+    font-weight: 800;
+    margin-top: 10px;
+}

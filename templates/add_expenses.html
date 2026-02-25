@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-danger text-white p-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-white bg-opacity-25 rounded-circle p-2 me-3">
+                            <i class="material-icons fs-3">receipt_long</i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">Add Expense</h4>
+                            <p class="small opacity-75 mb-0">Record your spending to stay within budget</p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+                        
+
+                <div class="card-body p-4 p-lg-5 bg-white">
+                    <form method="POST" class="needs-validation">
+
+
+                        
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small uppercase">Expense Title</label>
+                            <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+                                <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-danger">edit</i></span>
+                                <input type="text" name="title" value="{{ expense.title if expense else '' }}" 
+                                       class="form-control border-0 bg-light py-2" placeholder="e.g. Grocery, Rent" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small uppercase">Category</label>
+                            <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+                                <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-danger">label</i></span>
+                                <select name="category_id" class="form-select border-0 bg-light py-2" required>
+                                    <option value="" disabled selected>Select Category</option>
+                                    {% for cat in categories %}
+                                        <option value="{{ cat.id }}" {% if expense and expense.category_id == cat.id %}selected{% endif %}>
+                                            {{ cat.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-muted small uppercase">Amount (₹)</label>
+                                <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+                                    <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-danger">payments</i></span>
+                                    <input type="number" name="amount" step="0.01" value="{{ expense.amount if expense else '' }}" 
+                                           class="form-control border-0 bg-light py-2" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+    <label class="form-label fw-bold text-muted small uppercase">Date</label>
+    <div class="input-group border rounded-3 overflow-hidden shadow-sm">
+        <span class="input-group-text bg-light border-0">
+            <i class="material-icons fs-5 text-danger">calendar_today</i>
+        </span>
+        <input type="date" name="date" 
+               value="{{ expense.date if expense else today_date }}" 
+               class="form-control border-0 bg-light py-2" required>
+    </div>
+</div>
+
+                        
+    <hr>
+
+<div class="form-check mb-3">
+  <input class="form-check-input" type="checkbox" name="is_recurring" id="isRecurring">
+  <label class="form-check-label" for="isRecurring">
+    Make this a recurring expense
+  </label>
+</div>
+
+<div id="recurringOptions" style="display:none;">
+  <label class="form-label">Frequency</label>
+  <select name="frequency" class="form-control mb-3">
+    <option value="monthly">Monthly</option>
+    <option value="weekly">Weekly</option>
+  </select>
+</div>
+
+<script>
+document.getElementById("isRecurring").addEventListener("change", function() {
+    document.getElementById("recurringOptions").style.display =
+        this.checked ? "block" : "none";
+});
+</script>
+
+                        
+                        <div class="d-grid pt-2">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill fw-bold shadow-sm transition-hover">
+                                <i class="material-icons align-middle me-1">save</i> Save Transaction
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-link text-muted mt-2 text-decoration-none small">Cancel and go back</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const titleInput = document.querySelector('input[name="title"]');
+    const categorySelect = document.querySelector('select[name="category_id"]');
+
+    const categoryMap = {
+        // 1: Food
+        'chai': 1, 'coffee': 1, 'pizza': 1, 'burger': 1, 'zomato': 1, 'swiggy': 1, 'dinner': 1, 'lunch': 1, 'breakfast': 1, 'maggi': 1, 'canteen': 1, 'snacks': 1, 'restaurant': 1, 'grocery': 1, 'supermarket': 1, 'food': 1,
+        
+        // 2: Transport
+        'bus': 2, 'auto': 2, 'train': 2, 'ola': 2, 'uber': 2, 'petrol': 2, 'fuel': 2, 'rickshaw': 2, 'metro': 2, 'ticket': 2, 'parking': 2,
+        
+        // 3: Entertainment
+        'movie': 3, 'netflix': 3, 'spotify': 3, 'game': 3, 'multiplex': 3, 'pvr': 3, 'theatre': 3, 'concert': 3, 'clubbing': 3,
+        
+        // 4: Health
+        'gym': 4, 'protein': 4, 'medicine': 4, 'doctor': 4, 'clinic': 4, 'pharmacy': 4, 'tablet': 4, 'hospital': 4, 'multivitamin': 4,
+        
+        // 5: Utilities
+        'gas': 5, 'water': 5, 'wifi': 5, 'internet': 5, 'broadband': 5, 'maintenance': 5, 'cleaning': 6,
+        
+        // 6: Bills
+        'recharge': 6, 'jio': 6, 'airtel': 6, 'electricity': 6, 'vi': 6, 'postpaid': 6, 'prepaid': 6, 'bill': 6,
+        
+        // 7: Travel
+        'flight': 7, 'hotel': 7, 'goibibo': 7, 'makemytrip': 7, 'vacation': 7, 'trip': 7, 'resort': 7, 'indigo': 7, 'irctc': 7,
+        
+        // 8: Education
+        'xerox': 8, 'book': 8, 'pen': 8, 'exam': 8, 'fees': 8, 'course': 8, 'udemy': 8, 'stationery': 8, 'college': 8, 'project': 8,
+        
+        // 9: Rent
+        'rent': 9, 'room': 9, 'deposit': 9, 'pg': 9, 'brokerage': 9, 'flat': 9,
+        
+        // 10: Other Expenses
+        'gift': 10, 'donation': 10, 'shopping': 10, 'clothes': 10, 'salon': 10, 'haircut': 10
+    };
+
+    titleInput.addEventListener('input', function() {
+        const words = this.value.toLowerCase().split(' ');
+        
+        for (const word of words) {
+            if (categoryMap[word]) {
+                categorySelect.value = categoryMap[word];
+                
+                // Visual feedback: brief teal glow
+                categorySelect.style.borderColor = "#008080";
+                categorySelect.style.boxShadow = "0 0 10px rgba(0, 128, 128, 0.2)";
+                
+                setTimeout(() => { 
+                    categorySelect.style.borderColor = "#dee2e6"; 
+                    categorySelect.style.boxShadow = "none";
+                }, 1000);
+                
+                break;
+            }
+        }
+    });
+});
+</script>
+
+<style>
+    .bg-light { background-color: #f8f9fa !important; }
+    .btn-danger { background-color: #dc3545; border: none; }
+    .btn-danger:hover { background-color: #bb2d3b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3); }
+    .transition-hover { transition: all 0.3s ease; }
+    .form-control:focus, .form-select:focus { background-color: white !important; box-shadow: none; border-color: #dc3545; }
+</style>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-section py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #008080 0%, #004d4d 100%);">
+    <div class="container text-white py-5">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="d-flex align-items-center mb-4"> 
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" 
+                         class="hero-logo rounded-circle shadow-lg" 
+                         style="height: 70px; width: 70px; object-fit: cover; margin-right: 20px;" alt="Logo">
+                    <h1 class="display-4 fw-bold m-0 text-shadow">FinnVerse</h1> 
+                </div>
+                <h2 class="h3 fw-light mb-4 opacity-90">Your Finances, In One Smart Universe.</h2>
+                <p class="lead mb-4">
+                    The ultimate budget tracker for Mumbai students and professionals. Track, save, and grow with secure, real-time insights.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg rounded-pill px-4 fw-bold shadow-sm transition-hover">
+                        Get Started Free
+                    </a>
+                    <a href="{{ url_for('about_page') }}" class="btn btn-outline-light btn-lg rounded-pill px-4 transition-hover">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-md-6 text-center position-relative">
+                <img src="{{ url_for('static', filename='images/hero1.png') }}"
+                     class="img-fluid floating-img"
+                     style="max-height: 450px;"
+                     alt="Budget Management">
+            </div>
+        </div>
+    </div>
+    <svg class="position-absolute bottom-0 start-0 w-100" style="height: 50px;" preserveAspectRatio="none" viewBox="0 0 1440 320">
+        <path fill="#ffffff" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,165.3C672,139,768,117,864,128C960,139,1056,181,1152,197.3C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+</div>
+
+<div class="container py-5 mt-4">
+    <div class="text-center mb-5">
+        <h6 class="text-teal fw-bold text-uppercase ls-2">Features</h6>
+        <h2 class="fw-bold">Everything you need to thrive</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center p-4 transition-up rounded-4">
+                <div class="feature-icon-wrapper mx-auto mb-4">
+                    <img src="{{ url_for('static', filename='images/feature1.png') }}" width="70" alt="Track Expenses">
+                </div>
+                <h5 class="fw-bold mb-3">Track Expenses</h5>
+                <p class="text-muted small">Real-time ledger entries that categorize your spending automatically.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center p-4 transition-up rounded-4">
+                <div class="feature-icon-wrapper mx-auto mb-4">
+                    <img src="{{ url_for('static', filename='images/feature2.png') }}" width="70" alt="Manage Budgets">
+                </div>
+                <h5 class="fw-bold mb-3">Manage Budgets</h5>
+                <p class="text-muted small">Set strict limits and receive instant notifications before you overspend.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center p-4 transition-up rounded-4">
+                <div class="feature-icon-wrapper mx-auto mb-4">
+                    <img src="{{ url_for('static', filename='images/feature3.png') }}" width="70" alt="Insights & Reports">
+                </div>
+                <h5 class="fw-bold mb-3">Insights & Reports</h5>
+                <p class="text-muted small">Export PDF and CSV reports with beautiful charts for deep financial analysis.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="text-center fw-bold mb-5" style="color: #008080;">Common Questions</h2>
+            <div class="accordion accordion-flush shadow-sm rounded-4 overflow-hidden" id="faqAccordion">
+                
+                <div class="accordion-item border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                            How do I add an expense?
+                        </button>
+                    </h2>
+                    <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted">
+                            Simply head to the Dashboard or Expenses page, click the "Add Transaction" button, and enter your details. It updates your charts and budget bars instantly!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                            Will I get notified if I overspend?
+                        </button>
+                    </h2>
+                    <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted">
+                            Yes! FinnVerse features a <strong>Smart Alert System</strong>. If you set a budget for a category (like "Food") and your spending exceeds it, a notification will be generated automatically to help you stay on track.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                            Can I automate monthly bills like Rent?
+                        </button>
+                    </h2>
+                    <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted">
+                            Absolutely. When adding an expense, check the <strong>"Make this recurring"</strong> box. You can choose a weekly or monthly frequency, and FinnVerse will track the next due date for you.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                            How do I download my financial reports?
+                        </button>
+                    </h2>
+                    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted">
+                            Navigate to the <strong>Analysis</strong> tab. From there, you can export a visual PDF report containing charts or a CSV file containing your raw transaction data for Excel.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+                            Is my data secure?
+                        </button>
+                    </h2>
+                    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted">
+                            FinnVerse uses secure session management and password hashing (Werkzeug) to ensure that only you can access your personal financial data.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-teal { color: #008080; }
+    .ls-2 { letter-spacing: 2px; }
+    .text-shadow { text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    
+    .floating-img {
+        animation: float 4s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .transition-hover {
+        transition: all 0.3s ease;
+    }
+    .transition-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .transition-up {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .transition-up:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    .feature-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        background: #f8fdfd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+    }
+    
+    .card:hover .feature-icon-wrapper {
+        background: #e6f7f7;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #f0fafa;
+        color: #008080;
+    }
+</style>
+{% endblock %}

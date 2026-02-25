@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-teal-800 mb-0">🔁 Recurring Bills</h2>
+            <p class="text-muted">Automated subscriptions and fixed monthly costs</p>
+        </div>
+        <a href="{{ url_for('add_expense') }}" class="btn btn-teal rounded-pill px-4 shadow-sm">
+            <i class="material-icons align-middle">add</i> New Subscription
+        </a>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-teal-50">
+                <div class="card-body">
+                    <p class="text-muted small text-uppercase fw-bold mb-1">Active Subscriptions</p>
+                    <h3 class="fw-bold mb-0 text-teal-700">{{ subs|length }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Title</th>
+                        <th>Amount</th>
+                        <th>Frequency</th>
+                        <th>Next Run Date</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in subs %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box bg-light text-teal-600 rounded-circle p-2 me-3">
+                                    <i class="material-icons">event_repeat</i>
+                                </div>
+                                <span class="fw-bold">{{ s.title }}</span>
+                            </div>
+                        </td>
+                        <td class="fw-bold text-dark">₹{{ "{:,.2f}".format(s.amount) }}</td>
+                        <td>
+                            <span class="badge rounded-pill bg-info text-dark px-3">{{ s.frequency }}</span>
+                        </td>
+                        <td>
+                            <div class="small text-muted">
+                                <i class="material-icons fs-6 align-middle">calendar_today</i>
+                                {{ s.next_run_date.strftime('%d %b, %Y') if s.next_run_date else 'N/A' }}
+                            </div>
+                        </td>
+                        <td>
+                            {% if s.active %}
+                                <span class="badge bg-success-subtle text-success border border-success px-3">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary-subtle text-secondary border border-secondary px-3">Paused</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+    <a href="{{ url_for('toggle_subscription', id=s.id) }}" 
+       class="btn btn-sm {% if s.active %}btn-outline-warning{% else %}btn-outline-success{% endif %} border-0" 
+       title="{% if s.active %}Pause{% else %}Resume{% endif %}">
+        <i class="material-icons fs-5">{% if s.active %}pause_circle{% else %}play_circle{% endif %}</i>
+    </a>
+
+    <a href="{{ url_for('delete_subscription', id=s.id) }}" 
+       class="btn btn-sm btn-outline-danger border-0" 
+       onclick="return confirm('Are you sure you want to delete this subscription?')"
+       title="Delete">
+        <i class="material-icons fs-5">delete</i>
+    </a>
+</div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="material-icons text-muted fs-1">notifications_off</i>
+                            <p class="text-muted mt-2">No recurring expenses found. Start by adding one!</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; }
+    .text-teal-800 { color: #004d40; }
+    .bg-teal-50 { background-color: #e0f2f1; }
+    .table-hover tbody tr:hover { background-color: #f8fdfd; }
+    .icon-box { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+</style>
+{% endblock %}

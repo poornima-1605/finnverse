@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid py-4 px-lg-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+        <h2 class="fw-bold text-dark mb-1">📊 Financial Analysis</h2>
+        <p class="text-muted small">Visualizing your income, expenses, and monthly trends</p>
+    </div>
+    
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('export_analysis_csv') }}" class="btn btn-outline-teal d-flex align-items-center shadow-sm">
+        <i class="material-icons fs-6 me-1">download</i> Export All CSV
+      </a>
+      </div>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded-4 mb-5">
+    <div class="card-body p-4">
+      <h5 class="fw-bold text-teal-700 mb-4"><i class="material-icons align-middle me-2">history</i>Monthly Reports Archive</h5>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Month / Year</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in history_list %}
+            <tr>
+              <td>
+                <span class="fw-bold">
+                  {% if record.month == 1 %}January{% elif record.month == 2 %}February{% elif record.month == 3 %}March
+                  {% elif record.month == 4 %}April{% elif record.month == 5 %}May{% elif record.month == 6 %}June
+                  {% elif record.month == 7 %}July{% elif record.month == 8 %}August{% elif record.month == 9 %}September
+                  {% elif record.month == 10 %}October{% elif record.month == 11 %}November{% elif record.month == 12 %}December
+                  {% endif %}
+                </span> 
+                {{ record.year }}
+              </td>
+              <td class="text-end">
+                <a href="{{ url_for('export_analysis_pdf', month=record.month, year=record.year) }}" 
+                   class="btn btn-sm btn-primary rounded-pill px-3">
+                   <i class="material-icons fs-6 align-middle me-1">picture_as_pdf</i> Download PDF
+                </a>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="2" class="text-center text-muted py-3">No historical data found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 rounded-4 h-100">
+        <div class="card-body p-4 text-center">
+          <h5 class="fw-bold text-teal-700 mb-4">💰 Income by Source ({{ current_month_name }})</h5>
+
+          {% if income_source_totals %}
+            <div style="height: 300px;"><canvas id="incomeChart"></canvas></div>
+          {% else %}
+            <div class="py-5"><i class="material-icons text-muted fs-1">account_balance_wallet</i><p class="text-muted italic mt-2">No income data available.</p></div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 rounded-4 h-100">
+        <div class="card-body p-4 text-center">
+        <h5 class="fw-bold text-danger mb-4">💸 Expense by Category ({{ current_month_name }})</h5>
+          {% if expense_category_totals %}
+            <div style="height: 300px;"><canvas id="expenseChart"></canvas></div>
+          {% else %}
+            <div class="py-5"><i class="material-icons text-muted fs-1">payments</i><p class="text-muted italic mt-2">No expense data available.</p></div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded-4 mb-5">
+    <div class="card-body p-4">
+      <h5 class="fw-bold text-primary mb-4">📈 Monthly Trends (Lifetime)</h5>
+      {% if months %}
+        <div style="height: 350px;"><canvas id="monthlyTrendsChart"></canvas></div>
+      {% else %}
+        <p class="text-center text-muted py-5 italic">No monthly data found to generate trends.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <h6 class="fw-bold text-teal-700 mb-3 uppercase small tracking-wider">🏆 Top 3 Income Sources</h6>
+          <div class="space-y-4">
+            {% for source, total in top_income_sources %}
+              <div class="mb-3">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="fw-medium">{{ source }}</span>
+                  <span class="text-teal-700 fw-bold">₹{{ "{:,.2f}".format(total) }}</span>
+                </div>
+                <div class="progress rounded-pill" style="height: 10px;">
+                  {% set max_val = top_income_sources[0][1] if top_income_sources else 1 %}
+                  <div class="progress-bar bg-teal-600 rounded-pill" style="width: {{ (total / max_val) * 100 }}%;"></div>
+                </div>
+              </div>
+            {% else %}
+              <p class="text-gray-500 italic small">No data recorded.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+          <h6 class="fw-bold text-danger mb-3 uppercase small tracking-wider">📉 Top 3 Expense Categories</h6>
+          <div class="space-y-4">
+            {% for category, total in top_expense_categories %}
+              <div class="mb-3">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="fw-medium">{{ category }}</span>
+                  <span class="text-danger fw-bold">₹{{ "{:,.2f}".format(total) }}</span>
+                </div>
+                <div class="progress rounded-pill" style="height: 10px;">
+                  {% set max_val = top_expense_categories[0][1] if top_expense_categories else 1 %}
+                  <div class="progress-bar bg-danger rounded-pill" style="width: {{ (total / max_val) * 100 }}%;"></div>
+                </div>
+              </div>
+            {% else %}
+              <p class="text-gray-500 italic small">No data recorded.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const commonOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true, font: { family: 'Poppins' } } }
+    }
+  };
+
+  {% if income_source_totals %}
+  new Chart(document.getElementById('incomeChart'), {
+    type: 'doughnut',
+    data: {
+      labels: {{ income_source_totals.keys() | list | tojson }},
+      datasets: [{
+        data: {{ income_source_totals.values() | list | tojson }},
+        backgroundColor: ['#008080','#14b8a6','#2dd4bf','#99f6e4','#ccfbf1'],
+        borderWidth: 0
+      }]
+    },
+    options: commonOptions
+  });
+  {% endif %}
+
+  {% if expense_category_totals %}
+  new Chart(document.getElementById('expenseChart'), {
+    type: 'doughnut',
+    data: {
+      labels: {{ expense_category_totals.keys() | list | tojson }},
+      datasets: [{
+        data: {{ expense_category_totals.values() | list | tojson }},
+        backgroundColor: ['#dc3545','#ef4444','#f87171','#fca5a5','#fecaca'],
+        borderWidth: 0
+      }]
+    },
+    options: commonOptions
+  });
+  {% endif %}
+
+  {% if months %}
+  new Chart(document.getElementById('monthlyTrendsChart'), {
+    type: 'line',
+    data: {
+      labels: {{ months | tojson }},
+      datasets: [
+        { label: 'Income', data: {{ monthly_income_data | tojson }}, borderColor:'#008080', backgroundColor:'rgba(0,128,128,0.1)', fill:true, tension:0.4, pointRadius: 5 },
+        { label: 'Expense', data: {{ monthly_expense_data | tojson }}, borderColor:'#dc3545', backgroundColor:'rgba(220,53,69,0.1)', fill:true, tension:0.4, pointRadius: 5 }
+      ]
+    },
+    options: {
+      ...commonOptions,
+      scales: {
+        y: { beginAtZero: true, grid: { display: false }, ticks: { callback: val => '₹' + val } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+  {% endif %}
+</script>
+
+<style>
+    .btn-outline-teal { border-color: #008080; color: #008080; }
+    .btn-outline-teal:hover { background: #008080; color: white; }
+    .text-teal-700 { color: #006666; }
+    .bg-teal-600 { background-color: #008080; }
+</style>
+{% endblock %}

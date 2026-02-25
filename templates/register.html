@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid p-0 overflow-hidden" style="min-height: 100vh; background-color: #f8fdfd;">
+    <div class="row g-0" style="min-height: 100vh;">
+        
+        <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center text-white p-5" 
+             style="background: linear-gradient(135deg, #008080 0%, #004d4d 100%);">
+            <div class="text-center" style="max-width: 450px;">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="mb-4 floating-logo" width="100">
+                <h1 class="display-5 fw-bold mb-3">Join FinnVerse</h1>
+                <p class="lead opacity-75 mb-5">Start your journey toward financial freedom. It only takes a minute to set up your universe.</p>
+                
+                <div class="benefits-grid row g-4 text-start">
+                    <div class="col-6">
+                        <div class="p-3 rounded-4 bg-white bg-opacity-10">
+                            <i class="material-icons mb-2">auto_graph</i>
+                            <h6 class="fw-bold mb-1">Smart Tracking</h6>
+                            <p class="small mb-0 opacity-75">Auto-categorize every rupee.</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 rounded-4 bg-white bg-opacity-10">
+                            <i class="material-icons mb-2">security</i>
+                            <h6 class="fw-bold mb-1">Data Privacy</h6>
+                            <p class="small mb-0 opacity-75">Your data is encrypted.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 d-flex align-items-center justify-content-center p-4">
+            <div class="register-card p-4 p-lg-5 rounded-4 shadow-sm bg-white" style="width: 100%; max-width: 500px;">
+                
+                <div class="text-center mb-4">
+                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="FinnVerse" width="50" class="d-lg-none mb-3">
+                    <h2 class="fw-bold" style="color: #008080;">Create Account</h2>
+                    <p class="text-muted small">Sign up to start tracking your budget</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted text-uppercase ls-1">First Name</label>
+                            <input type="text" name="firstname" class="form-control form-control-lg bg-light border-0 rounded-pill px-4" style="font-size:15px" placeholder="John" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted text-uppercase ls-1">Last Name</label>
+                            <input type="text" name="lastname" class="form-control form-control-lg bg-light border-0 rounded-pill px-4" style="font-size:15px" placeholder="Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted text-uppercase ls-1">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 rounded-pill-start"><i class="material-icons text-teal fs-5">alternate_email</i></span>
+                            <input type="text" name="username" class="form-control form-control-lg bg-light border-0 rounded-pill-end" style="font-size:15px" placeholder="username123" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted text-uppercase ls-1">Email ID</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 rounded-pill-start"><i class="material-icons text-teal fs-5">mail_outline</i></span>
+                            <input type="email" name="email" class="form-control form-control-lg bg-light border-0 rounded-pill-end" style="font-size:15px" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted text-uppercase ls-1">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 rounded-pill-start"><i class="material-icons text-teal fs-5">lock_open</i></span>
+                            <input type="password" name="password" id="password" class="form-control form-control-lg bg-light border-0 rounded-pill-end" style="font-size:15px" placeholder="••••••••" required>
+                        </div>
+                        <div class="progress mt-2" style="height: 5px; border-radius: 10px;">
+                            <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <small id="passwordStrength" class="form-text mt-1 d-block" style="font-size: 12px;"></small>
+                    </div>
+
+                    <button type="submit" class="btn btn-teal btn-lg w-100 rounded-pill fw-bold shadow-sm py-3 transition-hover">
+                        Register Now <i class="material-icons align-middle ms-1">person_add</i>
+                    </button>
+                </form>
+
+                <p class="text-center mt-4 mb-0 text-muted small">Already have an account? 
+                    <a href="{{ url_for('login') }}" class="text-teal fw-bold text-decoration-none">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-teal { color: #008080; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-2px); }
+    .bg-light { background-color: #f0f7f7 !important; }
+    .ls-1 { letter-spacing: 1px; }
+    
+    .rounded-pill-start { border-top-left-radius: 50rem !important; border-bottom-left-radius: 50rem !important; }
+    .rounded-pill-end { border-top-right-radius: 50rem !important; border-bottom-right-radius: 50rem !important; }
+
+    .floating-logo { animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+    .transition-hover { transition: all 0.3s ease; }
+    .register-card { border: 1px solid #eef5f5; }
+
+    .form-control:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 10px rgba(0, 128, 128, 0.1);
+        border: 1px solid #008080;
+    }
+</style>
+
+<script>
+const passwordInput = document.getElementById("password");
+const strengthText = document.getElementById("passwordStrength");
+const strengthBar = document.getElementById("strengthBar");
+
+passwordInput.addEventListener("input", function () {
+    const value = passwordInput.value;
+    let strength = 0;
+
+    if (value.length >= 8) strength++;
+    if (/[a-z]/.test(value)) strength++;
+    if (/[A-Z]/.test(value)) strength++;
+    if (/\d/.test(value)) strength++;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) strength++;
+
+    const percentage = (strength / 5) * 100;
+    strengthBar.style.width = percentage + "%";
+
+    if (value.length === 0) {
+        strengthText.textContent = "";
+        strengthBar.className = "progress-bar";
+    } else if (strength < 3) {
+        strengthText.textContent = "Weak password ❌";
+        strengthText.style.color = "red";
+        strengthBar.className = "progress-bar bg-danger";
+    } else if (strength < 5) {
+        strengthText.textContent = "Moderate password ⚠️";
+        strengthText.style.color = "orange";
+        strengthBar.className = "progress-bar bg-warning";
+    } else {
+        strengthText.textContent = "Strong password ✅";
+        strengthText.style.color = "green";
+        strengthBar.className = "progress-bar bg-success";
+    }
+});
+
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+    const password = passwordInput.value;
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!strongPasswordRegex.test(password)) {
+        alert("❌ Password must be at least 8 characters long and include Uppercase, Lowercase, Number, and Special character.");
+        event.preventDefault();
+    }
+});
+</script>
+{% endblock %}

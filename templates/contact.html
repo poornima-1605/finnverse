@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="py-5 text-center" style="background: linear-gradient(135deg, #008080 0%, #004d4d 100%); color: white;">
+    <div class="container">
+        <h1 class="fw-bold">Get In Touch</h1>
+        <p class="opacity-75">Have questions about FinnVerse? We are here to help.</p>
+    </div>
+</div>
+
+<section class="container py-5">
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="contact-card p-4 h-100 text-center shadow-sm border-0 rounded-4 transition-hover bg-white">
+                <div class="icon-circle bg-teal-light mb-3 mx-auto">
+                    <i class="material-icons text-teal fs-2">language</i>
+                </div>
+                <h5 class="fw-bold mb-2">Official Website</h5>
+                <p class="text-muted small">www.finnverse.com</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="contact-card p-4 h-100 text-center shadow-sm border-0 rounded-4 transition-hover bg-white">
+                <div class="icon-circle bg-teal-light mb-3 mx-auto">
+                    <i class="material-icons text-teal fs-2">email</i>
+                </div>
+                <h5 class="fw-bold mb-2">Email Support</h5>
+                <p class="text-muted small">support@finnverse.in</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="contact-card p-4 h-100 text-center shadow-sm border-0 rounded-4 transition-hover bg-white">
+                <div class="icon-circle bg-teal-light mb-3 mx-auto">
+                    <i class="material-icons text-teal fs-2">location_on</i>
+                </div>
+                <h5 class="fw-bold mb-2">Our Office</h5>
+                <p class="text-muted small">Bandra East, Mumbai<br>Maharashtra, India</p>
+            </div>
+        </div>
+    </div>
+
+
+<style>
+    .text-teal { color: #008080; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-2px); }
+    
+    .bg-teal-light { background-color: rgba(0, 128, 128, 0.1); }
+    
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .contact-card {
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .contact-card:hover {
+        transform: translateY(-10px);
+        border-color: #008080;
+        box-shadow: 0 10px 30px rgba(0, 128, 128, 0.1) !important;
+    }
+
+    .transition-hover { transition: all 0.3s ease; }
+
+    .form-control:focus {
+        background-color: white !important;
+        box-shadow: none;
+        border: 1px solid #008080;
+    }
+
+    .uppercase { text-transform: uppercase; letter-spacing: 1px; }
+</style>
+{% endblock %}

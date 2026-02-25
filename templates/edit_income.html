@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Income</h2>
+
+<form method="POST">
+    
+    <div class="mb-3">
+          <label for="source_id">Source</label>
+          <select name="source_id" class="form-control" required>
+          <option value="" disabled>Select Income Source</option>
+    {% for src in sources %}
+        <option value="{{ src.id }}" {% if income.source_id == src.id %}selected{% endif %}>
+            {{ src.name }}
+        </option>
+    {% endfor %}
+</select>
+
+    </div>
+    <div class="mb-3">
+        <label>Amount:</label>
+        <input type="number" step="0.01" name="amount" value="{{ income.amount if income else '' }}" placeholder="Amount" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Date:</label>
+        <input type="date" name="date" class="form-control" required>
+    </div>
+    <textarea name="notes" class="form-control mb-3" placeholder="Notes (optional)">{{ income.notes if income else '' }}</textarea>
+
+    <button type="submit" class="btn btn-primary">Update Income</button>
+    <a href="{{ url_for('view_incomes') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

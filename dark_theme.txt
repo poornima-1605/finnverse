@@ -1,0 +1,145 @@
+/* Dark Theme */
+.dark-theme {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-theme .card {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333 !important;
+}
+
+.dark-theme .btn-outline-primary,
+.dark-theme .btn-outline-success,
+.dark-theme .btn-outline-secondary {
+    color: #e0e0e0 !important;
+    border-color: #008080 !important;
+}
+
+.dark-theme .btn-outline-primary:hover,
+.dark-theme .btn-outline-success:hover,
+.dark-theme .btn-outline-secondary:hover {
+    background-color: #008080 !important;
+    color: white !important;
+}
+
+.dark-theme a {
+    color: #00bfa5 !important; /* Teal links */
+}
+
+.dark-theme .budget-toast {
+    background-color: #b71c1c !important; /* Dark red notifications */
+    color: white !important;
+}
+
+.dark-theme table {
+    color: #e0e0e0 !important;
+}
+
+.dark-theme table th, .dark-theme table td {
+    border-color: #333 !important;
+}
+
+.dark-theme canvas {
+    background-color: #1e1e1e !important; /* Charts background */
+}
+
+/* Full page dark mode */
+body.dark-mode {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+/* Navbar dark mode */
+body.dark-mode .navbar {
+    background-color: #1e1e1e !important;
+    border-bottom: 1px solid #333;
+}
+
+/* Cards */
+body.dark-mode .card {
+    background-color: #1f1f1f !important;
+    color: #fff !important;
+    border: 1px solid #333 !important;
+}
+
+/* Buttons (outline buttons) */
+body.dark-mode .btn-outline-primary,
+body.dark-mode .btn-outline-secondary,
+body.dark-mode .btn-outline-success,
+body.dark-mode .btn-outline-danger {
+    color: #fff !important;
+    border-color: #bbb !important;
+}
+
+body.dark-mode .btn-outline-primary:hover,
+body.dark-mode .btn-outline-secondary:hover,
+body.dark-mode .btn-outline-success:hover,
+body.dark-mode .btn-outline-danger:hover {
+    background-color: #333 !important;
+}
+
+/* Tables */
+body.dark-mode table {
+    background-color: #1c1c1c !important;
+    color: white !important;
+}
+
+body.dark-mode table thead {
+    background-color: #2a2a2a !important;
+}
+
+body.dark-mode table tbody tr {
+    border-color: #333 !important;
+}
+
+/* Forms */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+    border: 1px solid #666 !important;
+}
+
+base.html(before body)
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if(!themeToggle) return;  // safety check
+
+    // Apply saved theme from localStorage
+    if(localStorage.getItem('theme') === 'dark'){
+        body.classList.add('dark-theme');
+        themeToggle.innerText = "Light Mode";
+    }
+
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+
+        if(body.classList.contains('dark-theme')){
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerText = "Light Mode";
+        } else {
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerText = "Dark Mode";
+        }
+
+        // Optional: Update Chart.js charts dynamically
+        if(window.myCharts){
+            window.myCharts.forEach(chart => {
+                chart.options.plugins.legend.labels.color = body.classList.contains('dark-theme') ? '#e0e0e0' : '#000';
+                chart.options.scales.x.ticks.color = body.classList.contains('dark-theme') ? '#e0e0e0' : '#000';
+                chart.options.scales.y.ticks.color = body.classList.contains('dark-theme') ? '#e0e0e0' : '#000';
+                chart.update();
+            });
+        }
+    });
+});
+</script>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Edit Budget</h2>
+
+<form method="POST">
+    <div class="mb-3">
+        <label>Category:</label>
+        <select name="category_id" class="form-control" required>
+            <option value="" disabled>Select Category</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if budget.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Amount:</label>
+        <input type="number" step="0.01" name="amount" class="form-control" value="{{ budget.amount }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Month:</label>
+        <input type="month" name="month" class="form-control" value="{{ budget.month }}" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Update Budget</button>
+    <a href="{{ url_for('view_budgets') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

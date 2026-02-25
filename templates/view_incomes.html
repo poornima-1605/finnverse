@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">
+                <i class="material-icons align-middle text-teal-600 me-2">account_balance_wallet</i> Your Incomes
+            </h2>
+            <p class="text-muted small mb-0">Monitor and manage your various revenue streams</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('add_income') }}" class="btn btn-teal px-4 rounded-pill shadow-sm d-flex align-items-center">
+                <i class="material-icons fs-6 me-1">add_circle</i> Add Income
+            </a>
+            {% if incomes | length > 0 %}
+            <form action="{{ url_for('delete_all_incomes') }}" method="POST" onsubmit="return confirm('⚠️ Warning: Delete ALL income records? This cannot be undone.');">
+                <button class="btn btn-outline-danger px-4 rounded-pill shadow-sm d-flex align-items-center">
+                    <i class="material-icons fs-6 me-1">delete_sweep</i> Clear All
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row mb-4">
+    <div class="col-md-6">
+        <form method="GET" action="{{ url_for('view_incomes') }}" class="input-group">
+            <input type="text" name="search" class="form-control border-0 shadow-sm rounded-start" 
+                   placeholder="Search by source..." value="{{ search_query }}">
+            <button class="btn btn-teal border-0 shadow-sm" type="submit">
+                <i class="material-icons align-middle">search</i>
+            </button>
+            {% if search_query %}
+                <a href="{{ url_for('view_incomes') }}" class="btn btn-outline-secondary border-0 shadow-sm">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-muted small uppercase fw-bold border-0">Source</th>
+                        <th class="py-3 text-muted small uppercase fw-bold border-0 text-end">Amount</th>
+                        <th class="py-3 text-muted small uppercase fw-bold border-0 text-center">Date</th>
+                        <th class="pe-4 py-3 text-muted small uppercase fw-bold border-0 text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for income in incomes %}
+                    <tr>
+                        <td class="ps-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-teal-50 text-teal-600 rounded-circle p-2 me-3 d-none d-sm-block">
+                                    <i class="material-icons fs-6">payments</i>
+                                </div>
+                                <span class="fw-semibold text-dark">{{ income.source.name if income.source else '—' }}</span>
+                            </div>
+                        </td>
+                        <td class="py-3 text-end fw-bold text-success">
+                            ₹{{ "{:,.2f}".format(income.amount) }}
+                        </td>
+                        <td class="py-3 text-center text-muted small">
+                            {{ income.date }}
+                        </td>
+                        
+                        <td class="pe-4 py-3 text-end">
+                            <div class="btn-group shadow-sm rounded-pill overflow-hidden">
+                                <a href="{{ url_for('edit_income', id=income.id) }}" class="btn btn-warning btn-sm px-3" title="Edit">
+                                    <i class="material-icons fs-6">edit</i>
+                                </a>
+                                <form action="{{ url_for('delete_income', income_id=income.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm px-3 border-0" title="Delete" 
+                                            onclick="return confirm('Delete this income record?');">
+                                        <i class="material-icons fs-6">delete</i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="py-5 text-center">
+                            <div class="text-muted">
+                                <i class="material-icons fs-1 mb-2">trending_up</i>
+                                <p class="mb-0">No income records found.</p>
+                                <a href="{{ url_for('add_income') }}" class="text-teal-600 fw-bold">Add your first income entry.</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-teal-50 { background-color: #f0fdfa; }
+    .text-teal-600 { color: #008080; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-1px); }
+    .text-success { color: #28a745 !important; }
+    .table-hover tbody tr:hover { background-color: #f8fbfb; transition: 0.2s; }
+    .btn-group .btn { display: inline-flex; align-items: center; border: none; }
+</style>
+{% endblock %}

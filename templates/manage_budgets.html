@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="fw-bold text-dark mb-0">⚙️ Budget Control Center</h2>
+            <p class="text-muted small">Manage your monthly spending limits with smart templates.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('add_income') }}" class="btn btn-outline-teal rounded-pill px-4 shadow-sm">
+                <i class="material-icons align-middle fs-6 me-1">payments</i> Add Income
+            </a>
+            <form action="{{ url_for('delete_all_budgets') }}" method="POST" onsubmit="return confirm('Delete ALL budgets for all months?');">
+                <button class="btn btn-outline-danger rounded-pill px-4 shadow-sm">
+                    <i class="material-icons align-middle fs-6 me-1">delete_sweep</i> Clear All
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 mb-5 overflow-hidden">
+        <div class="card-header bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0"><i class="material-icons align-middle me-2">auto_fix_high</i> One-Click Smart Planner</h6>
+            <span class="badge bg-teal-500 rounded-pill">FinnVerse Heuristic Engine</span>
+        </div>
+        <div class="card-body p-4 bg-teal-50">
+            <form method="POST">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="small fw-bold text-teal-600">1. Target Month</label>
+                        <input type="month" name="month" class="form-control rounded-pill border-0 shadow-sm" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="small fw-bold text-teal-600">2. Budgeting Style</label>
+                        <select name="template_style" id="template_style" class="form-select rounded-pill border-0 shadow-sm" onchange="updatePreview()">
+                            <option value="student" selected>Student (Focus: Food & Education)</option>
+                            <option value="professional">Professional (Focus: Rent & Savings)</option>
+                            <option value="saver">Minimalist/Saver (Focus: Frugality)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-teal w-100 rounded-pill fw-bold py-2 shadow-sm transition-all">
+                            Distribute My Income
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-white rounded-3 shadow-sm border border-teal-100">
+                    <p class="small fw-bold text-muted mb-2">Plan Breakdown (Percentage Distribution):</p>
+                    <div id="preview-container" class="d-flex flex-wrap gap-2">
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-muted small fw-bold">Category</th>
+                        <th class="py-3 text-center text-muted small fw-bold">Allocated Amount</th>
+                        <th class="py-3 text-center text-muted small fw-bold">Month & Year</th>
+                        <th class="pe-4 py-3 text-end text-muted small fw-bold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for budget in budgets %}
+                    <tr>
+                        <td class="ps-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-teal-50 text-teal-600 rounded-circle p-2 me-3">
+                                    <i class="material-icons fs-6">label</i>
+                                </div>
+                                <span class="fw-bold text-dark">{{ budget.category.name }}</span>
+                            </div>
+                        </td>
+                        <td class="py-3 text-center fw-bold text-teal-600">
+                            ₹{{ "{:,.2f}".format(budget.amount) }}
+                        </td>
+                        <td class="py-3 text-center">
+                            <span class="badge bg-light text-dark border rounded-pill px-3 py-2 font-monospace">
+                                {{ budget.date.strftime('%B %Y') }}
+                            </span>
+                        </td>
+                        <td class="pe-4 py-3 text-end">
+                    <form action="{{ url_for('delete_budget', id=budget.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger border-0" onclick="return confirm('Are you sure?')">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <div class="text-muted">
+                                <i class="material-icons fs-1 mb-2">receipt_long</i>
+                                <p class="mb-0">No active budgets found.</p>
+                                <small>Pick a month and style above to generate your plan!</small>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-teal-50 { background-color: #f0fdfa; }
+    .text-teal-600 { color: #008080; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-1px); }
+    .border-teal-100 { border-color: #ccfbf1; }
+    .bg-teal-500 { background-color: #14b8a6; }
+    .font-monospace { font-family: 'Courier New', Courier, monospace; }
+    .transition-all { transition: all 0.2s ease; }
+</style>
+
+<script>
+    const templates = {
+        student: { 'Food': 25, 'Education': 20, 'Transport': 15, 'Rent': 15, 'Bills': 10, 'Entertainment': 5, 'Health': 3, 'Utilities': 3, 'Travel': 2, 'Other': 2 },
+        professional: { 'Rent': 35, 'Food': 15, 'Health': 10, 'Transport': 10, 'Bills': 5, 'Utilities': 5, 'Entertainment': 5, 'Other': 15 },
+        saver: { 'Rent': 30, 'Food': 15, 'Bills': 10, 'Transport': 5, 'Health': 5, 'Other': 35 }
+    };
+
+    function updatePreview() {
+        const style = document.getElementById('template_style').value;
+        const container = document.getElementById('preview-container');
+        const data = templates[style];
+        
+        container.innerHTML = ''; // Clear previous
+        
+        for (const [cat, percent] of Object.entries(data)) {
+            const badge = document.createElement('div');
+            badge.className = "d-flex align-items-center bg-light border rounded-pill px-3 py-1 small shadow-sm";
+            badge.innerHTML = `<span class="fw-bold text-teal-600 me-2">${percent}%</span> <span class="text-muted">${cat}</span>`;
+            container.appendChild(badge);
+        }
+    }
+
+    // Initialize preview on page load
+    document.addEventListener('DOMContentLoaded', updatePreview);
+</script>
+{% endblock %}

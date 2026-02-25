@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">📋 Transaction History</h2>
+            <p class="text-muted small">Search and filter your financial records</p>
+        </div>
+        <div class="bg-white px-3 py-2 rounded shadow-sm border">
+            <span class="text-muted small uppercase fw-bold">Total Records:</span>
+            <span class="text-teal-700 fw-bold ms-1">{{ incomes|length + expenses|length }}</span>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body bg-light rounded">
+            <form method="get" action="{{ url_for('transaction_history') }}" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted">Transaction Type</label>
+                    <select name="type" class="form-select border-0 shadow-sm">
+                        <option value="">All Types</option>
+                        <option value="Income" {% if filters.type == 'Income' %}selected{% endif %}>Income</option>
+                        <option value="Expense" {% if filters.type == 'Expense' %}selected{% endif %}>Expense</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted">From Date</label>
+                    <input type="date" name="from_date" value="{{ filters.from_date }}" class="form-control border-0 shadow-sm">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted">To Date</label>
+                    <input type="date" name="to_date" value="{{ filters.to_date }}" class="form-control border-0 shadow-sm">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-teal w-100 fw-bold shadow-sm">
+                        <i class="material-icons align-middle fs-6">filter_list</i> Apply Filters
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-3 shadow-sm border overflow-hidden">
+        <table class="table table-hover mb-0">
+            <thead class="bg-teal-700 text-white">
+                <tr>
+                    <th class="px-4 py-3 border-0">Type</th>
+                    <th class="px-4 py-3 border-0">Category / Source</th>
+                    <th class="px-4 py-3 border-0">Title</th>
+                    <th class="px-4 py-3 border-0 text-end">Amount</th>
+                    <th class="px-4 py-3 border-0">Date</th>
+                    
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for income in incomes %}
+                <tr class="align-middle">
+                    <td class="px-4 py-3">
+                        <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill small uppercase fw-bold">Income</span>
+                    </td>
+                    <td class="px-4 py-3 fw-medium text-dark">{{ income.source.name if income.source else 'General' }}</td>
+                    <td class="px-4 py-3">{{ income.title }}</td>
+                    <td class="px-4 py-3 text-end text-success fw-bold">₹{{ "{:,.2f}".format(income.amount) }}</td>
+                    <td class="px-4 py-3 text-muted small">{{ income.date }}</td>
+                                    </tr>
+                {% endfor %}
+
+                {% for expense in expenses %}
+                <tr class="align-middle">
+                    <td class="px-4 py-3">
+                        <span class="badge bg-danger-subtle text-danger border border-danger px-3 py-2 rounded-pill small uppercase fw-bold">Expense</span>
+                    </td>
+                    <td class="px-4 py-3 fw-medium text-dark">{{ expense.category.name if expense.category else 'General' }}</td>
+                    <td class="px-4 py-3">{{ expense.title }}</td>
+                    <td class="px-4 py-3 text-end text-danger fw-bold">₹{{ "{:,.2f}".format(expense.amount) }}</td>
+                    <td class="px-4 py-3 text-muted small">{{ expense.date }}</td>
+                </tr>
+                {% endfor %}
+
+                {% if not incomes and not expenses %}
+                <tr>
+                    <td colspan="5" class="py-5 text-center text-muted">
+                        <i class="material-icons fs-1 mb-2 d-block">search_off</i>
+                        No records found for the selected period.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .btn-teal { background-color: #008080; color: white; transition: 0.3s; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-2px); }
+    .bg-success-subtle { background-color: #e8f5e9; }
+    .bg-danger-subtle { background-color: #ffebee; }
+</style>
+{% endblock %}

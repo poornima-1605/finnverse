@@ -1,0 +1,154 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold text-dark">Welcome back, {{ current_user.username }}!</h2>
+            <p class="text-secondary">Your financial overview for this month.</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="p-4 bg-white shadow-sm border-start border-success border-5 rounded-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-uppercase small fw-bold text-secondary mb-1">Total Income</p>
+                        <h3 class="fw-bold text-success">₹{{ "{:,.2f}".format(total_income or 0) }}</h3>
+                    </div>
+                    <i class="bi bi-wallet2 fs-2 text-success opacity-25"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 bg-white shadow-sm border-start border-danger border-5 rounded-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-uppercase small fw-bold text-secondary mb-1">Total Expenses</p>
+                        <h3 class="fw-bold text-danger">₹{{ "{:,.2f}".format(total_expense or 0) }}</h3>
+                    </div>
+                    <i class="bi bi-credit-card fs-2 text-danger opacity-25"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 bg-white shadow-sm border-start border-primary border-5 rounded-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="text-uppercase small fw-bold text-secondary mb-1">Net Balance</p>
+                        {% set bal = (total_income or 0) - (total_expense or 0) %}
+                        <h3 class="fw-bold {{ 'text-primary' if bal >= 0 else 'text-danger' }}">₹{{ "{:,.2f}".format(bal) }}</h3>
+                    </div>
+                    <i class="bi bi-bank fs-2 text-primary opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4 mb-4 bg-white">
+    <div class="d-flex align-items-center mb-3">
+        <i class="material-icons text-teal me-2">flash_on</i>
+        <h5 class="fw-bold m-0" style="color: #008080;">Quick Log</h5>
+    </div>
+    
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('quick_add', template_type='tea') }}" class="quick-chip">
+            <i class="material-icons">coffee</i> Chai ₹20
+        </a>
+        <a href="{{ url_for('quick_add', template_type='bus') }}" class="quick-chip">
+            <i class="material-icons">directions_bus</i> BEST ₹15
+        </a>
+        <a href="{{ url_for('quick_add', template_type='xerox') }}" class="quick-chip">
+            <i class="material-icons">print</i> Xerox ₹50
+        </a>
+        <a href="{{ url_for('quick_add', template_type='recharge') }}" class="quick-chip">
+            <i class="material-icons">phonelink_ring</i> Data ₹299
+        </a>
+        <a href="{{ url_for('quick_add', template_type='ott') }}" class="quick-chip">
+            <i class="material-icons">play_circle</i> OTT ₹199
+        </a>
+        <a href="{{ url_for('quick_add', template_type='gym') }}" class="quick-chip">
+            <i class="material-icons">fitness_center</i> Gym ₹1k
+        </a>
+    </div>
+</div>
+
+<hr>
+<p class="card-text">
+    <strong>FinnBot Advice:</strong> <br>
+    <span class="text-primary">{{ bot_advice }}</span>
+</p>
+
+<div class="card mt-4" style="border-left: 5px solid #007bff;">
+    <div class="card-body">
+        <h5 class="card-title">🤖 FinnVerse Predictive Insight</h5>
+        {% if prediction %}
+            <p class="card-text">
+                Based on your current spending velocity, your estimated spending for next month is: 
+                <span class="badge bg-primary" style="font-size: 1.2rem;">₹{{ prediction }}</span>
+            </p>
+        {% else %}
+            <p class="card-text text-muted">
+                <em>Not enough data to predict yet. Add at least 3 expenses to see AI insights.</em>
+            </p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .quick-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
+        background-color: #f0fafa;
+        color: #008080;
+        border: 1px solid #008080;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+    .quick-chip i { font-size: 1.1rem; margin-right: 6px; }
+    .quick-chip:hover {
+        background-color: #008080;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,128,128,0.2);
+    }
+</style>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="bg-white p-4 rounded-3 shadow-sm border border-light" style="min-height: 350px;">
+                <h5 class="fw-bold mb-4">Expense Analysis</h5>
+                <div class="text-center py-5">
+                    <p class="text-muted">Visualizing your spending patterns...</p>
+                    <a href="{{ url_for('analysis') }}" class="btn btn-outline-teal btn-sm">View Full Analysis</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="bg-white p-4 rounded-3 shadow-sm border border-light h-100">
+                <h5 class="fw-bold mb-3">Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('view_incomes') }}" class="btn btn-success py-2 fw-bold shadow-sm">Add Income</a>
+                    <a href="{{ url_for('view_expenses') }}" class="btn btn-danger py-2 fw-bold shadow-sm">Add Expense</a>
+                    <hr>
+                    <a href="{{ url_for('transaction_history') }}" class="btn btn-light border py-2">History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-outline-teal { border-color: #008080; color: #008080; }
+    .btn-outline-teal:hover { background: #008080; color: white; }
+</style>
+{% endblock %}

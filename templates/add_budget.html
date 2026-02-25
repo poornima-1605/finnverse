@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-teal-700 text-white p-4 rounded-top-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <i class="material-icons me-2">savings</i>
+                        <h4 class="fw-bold mb-0">Set Monthly Budget</h4>
+                    </div>
+                    <p class="small opacity-75 mb-0 mt-1">Define your spending limit for specific categories</p>
+                </div>
+                
+                <div class="card-body p-4 p-lg-5 bg-white rounded-bottom-4">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small uppercase tracking-wide">Category</label>
+                            <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-teal-600">category</i></span>
+                                <select name="category_id" class="form-select border-0 bg-light" required>
+                                    <option value="" disabled selected>-- Select Category --</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted small uppercase tracking-wide">Monthly Limit (₹)</label>
+                            <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-teal-600">payments</i></span>
+                                <input type="number" step="0.01" name="amount" class="form-control border-0 bg-light" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-bold text-muted small uppercase tracking-wide">Target Month</label>
+                            <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-teal-600">calendar_month</i></span>
+                                <input type="month" name="month" class="form-control border-0 bg-light" required>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-teal py-3 fw-bold rounded-pill shadow-sm transition-all">
+                                <i class="material-icons align-middle fs-5 me-1">check_circle</i> Save Budget Plan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-teal-50 border border-teal-100 rounded-3 d-flex align-items-start">
+                <i class="material-icons text-teal-600 me-2">lightbulb</i>
+                <p class="small text-teal-800 mb-0">
+                    <strong>Tip:</strong> Setting a realistic budget helps FinnVerse give you better "Overspent" warnings in your Dashboard.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-teal-700 { background-color: #006666; }
+    .bg-teal-50 { background-color: #f0fdfa; }
+    .border-teal-100 { border-color: #ccfbf1; }
+    .text-teal-600 { color: #008080; }
+    .text-teal-800 { color: #115e59; }
+    
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-2px); }
+    
+    .form-control:focus, .form-select:focus {
+        background-color: #fff;
+        box-shadow: none;
+        outline: 2px solid #008080;
+    }
+    
+    .transition-all { transition: all 0.3s ease; }
+</style>
+{% endblock %}

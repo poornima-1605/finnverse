@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid p-0 overflow-hidden" style="min-height: 100vh; background-color: #f8fdfd;">
+    <div class="row g-0" style="min-height: 100vh;">
+        
+        <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center text-white p-5" 
+             style="background: linear-gradient(135deg, #008080 0%, #004d4d 100%);">
+            <div class="text-center">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="mb-4 floating-logo" width="120">
+                <h1 class="display-4 fw-bold mb-3">Welcome to FinnVerse</h1>
+                <p class="lead opacity-75 mb-5">Your Universe of Financial Clarity starts here.</p>
+                
+                <div class="features-list text-start d-inline-block">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="material-icons me-3">verified_user</i>
+                        <span>Secure End-to-End Encryption</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="material-icons me-3">trending_up</i>
+                        <span>Real-time Spending Analytics</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="material-icons me-3">savings</i>
+                        <span>Smart Budgeting Tools</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 d-flex align-items-center justify-content-center p-4">
+            <div class="login-card p-4 p-lg-5 rounded-4 shadow-sm bg-white" style="width: 100%; max-width: 450px;">
+                
+                <div class="text-center mb-4">
+                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="FinnVerse" width="60" class="d-lg-none mb-3">
+                    <h2 class="fw-bold" style="color: #008080;">Login to Dashboard</h2>
+                    <p class="text-muted small">Enter your credentials to manage your budget</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted text-uppercase ls-1">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 rounded-pill-start"><i class="material-icons text-teal fs-5">person</i></span>
+                            <input type="text" name="username" class="form-control form-control-lg bg-light border-0 rounded-pill-end" placeholder="e.g. john_doe" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase ls-1">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 rounded-pill-start"><i class="material-icons text-teal fs-5">lock</i></span>
+                            <input type="password" name="password" class="form-control form-control-lg bg-light border-0 rounded-pill-end" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label small text-muted" for="rememberMe">Remember me</label>
+                        </div>
+                        <a href="{{ url_for('forgot_password') }}" class="small text-teal text-decoration-none fw-bold">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-teal btn-lg w-100 rounded-pill fw-bold shadow-sm py-3 transition-hover">
+                        Sign In <i class="material-icons align-middle ms-1">arrow_forward</i>
+                    </button>
+                </form>
+
+                <div class="text-center mt-5">
+                    <p class="text-muted small mb-0">New to FinnVerse?</p>
+                    <a href="{{ url_for('register') }}" class="text-teal fw-bold text-decoration-none">Create an Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-teal { color: #008080; }
+    .btn-teal { background-color: #008080; color: white; border: none; }
+    .btn-teal:hover { background-color: #006666; color: white; transform: translateY(-2px); }
+    .bg-light { background-color: #f0f7f7 !important; }
+    .ls-1 { letter-spacing: 1px; }
+    .rounded-pill-start { border-top-left-radius: 50rem !important; border-bottom-left-radius: 50rem !important; }
+    .rounded-pill-end { border-top-right-radius: 50rem !important; border-bottom-right-radius: 50rem !important; }
+    
+    .floating-logo { animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+    .transition-hover { transition: all 0.3s ease; }
+    .login-card { border: 1px solid #eef5f5; }
+
+    .form-control:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 10px rgba(0, 128, 128, 0.1);
+        border: 1px solid #008080;
+    }
+</style>
+{% endblock %}
