@@ -221,15 +221,6 @@ def is_strong_password(password):
     )
 
 
-
-
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
-
 @app.route("/init-full-db")
 def init_full_db():
     with app.app_context():
@@ -1489,6 +1480,4 @@ def delete_budget(id):
 
  
 if __name__ == '__main__':
-    with app.app_context():
-         db.create_all()
     app.run(debug=True) 
