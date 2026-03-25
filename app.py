@@ -221,16 +221,14 @@ def is_strong_password(password):
     )
 
 
-from flask import Flask
-from database import db
-from models import User, Category, Expense, Income, Source, Budget, Notification, RecurringExpense, PasswordReset
 
-app = Flask(__name__)
 
-# --- Your existing config ---
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-# app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "default-dev-key")
-# db.init_app(app)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
 
 @app.route("/init-full-db")
 def init_full_db():
@@ -264,9 +262,6 @@ def init_full_db():
 
         db.session.commit()
         return "✅ All tables created and default data inserted!"
-
-if __name__ == "__main__":
-    app.run(debug=True)
 
 
 @app.route('/')
