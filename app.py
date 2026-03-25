@@ -157,8 +157,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
-with app.app_context():
-    db.create_all()
+
 migrate = Migrate(app, db)
 
 app.register_blueprint(profile_bp)
