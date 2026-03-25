@@ -143,13 +143,22 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", 'default-dev-key')
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-    ("DATABASE_URL")
-)
+
+# ✅ Database URL
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+
+# ✅ IMPORTANT for Aiven (SSL)
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "connect_args": {
+        "ssl": {"ssl_mode": "REQUIRED"}
+    }
+}
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-
-db.init_app(app) 
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 migrate = Migrate(app, db)
 
 app.register_blueprint(profile_bp)
