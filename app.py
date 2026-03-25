@@ -233,7 +233,7 @@ def init_full_db():
             "Food",
             "Transport",
             "Rent",
-            "Healthcare",
+            "Health",
             "Travel",
             "Utilities",
             "Bills",
