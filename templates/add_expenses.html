@@ -120,17 +120,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 1. Map words to Category NAMES (not IDs)
     const nameMap = {
-        'chai': 'Food', 'coffee': 'Food', 'zomato': 'Food', 'swiggy': 'Food', 'grocery': 'Food',
-        'ola': 'Travel', 'uber': 'Travel', 'metro': 'Travel', 'auto': 'Travel', 'train': 'Travel',
-        'movie': 'Entertainment', 'netflix': 'Entertainment', 'spotify': 'Entertainment',
-        'gym': 'Health', 'medicine': 'Health', 'doctor': 'Health',
-        'wifi': 'Utilities', 'internet': 'Utilities', 'gas': 'Utilities',
-        'recharge': 'Bills', 'jio': 'Bills', 'electricity': 'Bills',
-        'flight': 'Travel', 'trip': 'Travel', 'hotel': 'Travel',
-        'xerox': 'Education', 'book': 'Education', 'fees': 'Education', 'college': 'Education',
-        'rent': 'Rent', 'pg': 'Rent',
-        'gift': 'Shopping', 'clothes': 'Shopping', 'salon': 'Shopping'
-    };
+    // 1. Education
+    'fees': 'Education', 'school': 'Education', 'college': 'Education', 'tution': 'Education', 'books': 'Education', 'xerox': 'Education', 'stationery': 'Education', 'udemy': 'Education', 'coursera': 'Education', 'exam': 'Education',
+
+    // 2. Food
+    'zomato': 'Food', 'swiggy': 'Food', 'blinkit': 'Food', 'zepto': 'Food', 'grocery': 'Food', 'milk': 'Food', 'doodh': 'Food', 'sabji': 'Food', 'mutton': 'Food', 'chicken': 'Food', 'restaurant': 'Food', 'chai': 'Food', 'maggi': 'Food', 'canteen': 'Food',
+
+    // 3. Transport
+    'petrol': 'Transport', 'diesel': 'Transport', 'auto': 'Transport', 'rickshaw': 'Transport', 'bus': 'Transport', 'metro': 'Transport', 'train': 'Transport', 'uber': 'Transport', 'ola': 'Transport', 'parking': 'Transport', 'toll': 'Transport',
+
+    // 4. Rent
+    'rent': 'Rent', 'pg': 'Rent', 'room': 'Rent', 'flat': 'Rent', 'maintenance': 'Rent', 'deposit': 'Rent',
+
+    // 5. Healthcare
+    'doctor': 'Healthcare', 'medicine': 'Healthcare', 'pharmacy': 'Healthcare', 'hospital': 'Healthcare', 'clinic': 'Healthcare', 'gym': 'Healthcare', 'protein': 'Healthcare', 'tablet': 'Healthcare', 'test': 'Healthcare', 'lab': 'Healthcare',
+
+    // 6. Travel
+    'flight': 'Travel', 'hotel': 'Travel', 'vacation': 'Travel', 'trip': 'Travel', 'irctc': 'Travel', 'indigo': 'Travel', 'makemytrip': 'Travel', 'goibibo': 'Travel', 'resort': 'Travel',
+
+    // 7. Utilities
+    'gas': 'Utilities', 'cylinder': 'Utilities', 'water': 'Utilities', 'wifi': 'Utilities', 'broadband': 'Utilities', 'garbage': 'Utilities', 'cleaning': 'Utilities', 'maid': 'Utilities',
+
+    // 8. Bills
+    'recharge': 'Bills', 'electricity': 'Bills', 'jio': 'Bills', 'airtel': 'Bills', 'vi': 'Bills', 'postpaid': 'Bills', 'prepaid': 'Bills', 'insurance': 'Bills', 'lic': 'Bills',
+
+    // 9. Entertainment
+    'movie': 'Entertainment', 'pvr': 'Entertainment', 'netflix': 'Entertainment', 'prime': 'Entertainment', 'hotstar': 'Entertainment', 'spotify': 'Entertainment', 'club': 'Entertainment', 'party': 'Entertainment', 'gaming': 'Entertainment',
+
+    // 10. Other
+    'gift': 'Other', 'shopping': 'Other', 'clothes': 'Other', 'salon': 'Other', 'barber': 'Other', 'mandir': 'Other', 'donation': 'Other', 'shadi': 'Other'
+};
 
     // 2. Helper function to find ID based on Name
     function findIdByName(name) {
