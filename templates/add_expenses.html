@@ -53,10 +53,11 @@
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label class="form-label fw-bold text-muted small uppercase">Amount (₹)</label>
+                                
                                 <div class="input-group border rounded-3 overflow-hidden shadow-sm">
                                     <span class="input-group-text bg-light border-0"><i class="material-icons fs-5 text-danger">payments</i></span>
-                                    <input type="number" name="amount" step="0.01" value="{{ expense.amount if expense else '' }}" 
-                                           class="form-control border-0 bg-light py-2" placeholder="0.00" required>
+                                    <input type="number" name="amount" step="0.01" min = "0.01" svalue="{{ expense.amount if expense else '' }}" 
+                                           class="form-control border-0 bg-light py-2" placeholder="500.00" required>
                                 </div>
                             </div>
 

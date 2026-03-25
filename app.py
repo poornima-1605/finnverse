@@ -75,16 +75,12 @@ def predict_next_month_spending(expenses):
 
     data = []
     for exp in expenses:
-        # --- NEW FIX STARTS HERE ---
-        # This checks if exp.date is a string; if it is, convert it to a date object
         clean_date = exp.date
         if isinstance(clean_date, str):
             try:
-                # Adjust the format '%Y-%m-%d' if your string looks different
                 clean_date = datetime.strptime(clean_date, '%Y-%m-%d').date()
             except ValueError:
-                continue # Skip this entry if the date format is totally broken
-        # --- NEW FIX ENDS HERE ---
+                continue 
 
         data.append({
             'date': clean_date,
@@ -93,7 +89,6 @@ def predict_next_month_spending(expenses):
     
     df = pd.DataFrame(data)
     
-    # Now toordinal() will work because we ensured clean_date is a date object
     df['date_ordinal'] = df['date'].map(lambda x: x.toordinal())
     
     X = df[['date_ordinal']].values
@@ -211,10 +206,10 @@ def send_password_reset_email(to_email, subject, content):
 def is_strong_password(password):
     return (
         len(password) >= 8 and
-        re.search(r'[A-Z]', password) and     # At least one uppercase
-        re.search(r'[a-z]', password) and     # At least one lowercase
-        re.search(r'\d', password) and        # At least one digit
-        re.search(r'[!@#$%^&*(),.?":{}|<>]', password)  # At least one special character
+        re.search(r'[A-Z]', password) and     
+        re.search(r'[a-z]', password) and   
+        re.search(r'\d', password) and        
+        re.search(r'[!@#$%^&*(),.?":{}|<>]', password)  
     )
 
 
@@ -392,6 +387,15 @@ def add_expense():
         input_date = request.form['date']
         category_id = request.form['category_id']
         notes = request.form.get('notes')  
+
+        try:
+            amount_val = float(amount)
+            if amount_val <= 0:
+                flash("Amount must be greater than zero!", "danger")
+                return redirect(url_for('add_expense'))
+        except ValueError:
+            flash("Invalid amount! Please enter a numeric value.", "danger")
+            return redirect(url_for('add_expense'))
 
         # 1. Save new expense
         new_expense = Expense(
@@ -708,6 +712,14 @@ def add_income():
         input_date = request.form['date']
         notes = request.form.get('notes') 
 
+        try:
+            amount_val = float(amount)
+            if amount_val <= 0:
+                flash("Amount must be greater than zero!", "danger")
+                return redirect(url_for('add_income'))
+        except ValueError:
+            flash("Invalid amount! Please enter a numeric value.", "danger")
+            return redirect(url_for('add_income'))
         
 
         new_income = Income(
@@ -791,9 +803,7 @@ def analysis():
     curr_year = today.year
     current_month_name = today.strftime("%B")
 
-    # ----- 1. Historical Archive Logic (NEW) -----
-    # This finds every unique Month/Year pair the user has data for.
-    # We use 'history_list' to create the PDF download table.
+    
     history_list = db.session.query(
         extract('month', Expense.date).label('month'),
         extract('year', Expense.date).label('year')
@@ -815,7 +825,7 @@ def analysis():
     )
     total_income = sum(income_source_totals.values()) if income_source_totals else 0
 
-    # ----- 2. Expense by Category (FILTERED FOR CURRENT MONTH) -----
+    
     expense_category_totals = dict(
         db.session.query(Category.name, func.sum(Expense.amount))
         .join(Category, Expense.category_id == Category.id)
@@ -829,7 +839,7 @@ def analysis():
     )
     total_expense = sum(expense_category_totals.values()) if expense_category_totals else 0
 
-    # ----- 4. Monthly Trends (Existing) -----
+
     income_trends = dict(
         db.session.query(
             func.date_format(Income.date, "%Y-%m"),
@@ -854,7 +864,7 @@ def analysis():
     monthly_income_data = [float(income_trends.get(m, 0)) for m in all_months]
     monthly_expense_data = [float(expense_trends.get(m, 0)) for m in all_months]
 
-    # ----- 5. Top 3 Summaries (Existing) -----
+    
     top_income_sources = (
         db.session.query(Source.name, func.sum(Income.amount))
         .join(Source, Income.source_id == Source.id)
@@ -887,7 +897,7 @@ def analysis():
         top_income_sources=top_income_sources,
         top_expense_categories=top_expense_categories,
         current_month_name=current_month_name,
-        history_list=history_list # NEW variable passed to HTML
+        history_list=history_list 
     )
 
 @app.route('/subscriptions')
