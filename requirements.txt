@@ -1,5 +1,8 @@
 flask
 flask-sqlalchemy
+mysql-connector-python
+python-dotenv
+gunicorn
 flask-login
 flask-migrate
 flask-mail
